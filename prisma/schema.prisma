@@ -14,3 +14,10 @@ model todo {
   done        Boolean  @default(false)
   createAt    DateTime @db.Date
 }
+
+model users {
+  id       Int     @id @default(autoincrement())
+  name     String  @default("0") @db.VarChar(50)
+  passwork String  @default("0") @db.VarChar(100)
+  email    String? @db.VarChar(50)
+}

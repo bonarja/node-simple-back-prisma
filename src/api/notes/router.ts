@@ -1,9 +1,10 @@
-const { PrismaClient } = require("@prisma/client");
-const { Router } = require("express");
+import { PrismaClient } from "@prisma/client"
+import { Router } from "express"
 
 const router = Router();
 
-router.post("/todo", (req, res) => {
+
+router.post("/notes", (req, res) => {
   const prisma = new PrismaClient();
   const { title, description } = req.body;
   prisma.todo
@@ -23,7 +24,7 @@ router.post("/todo", (req, res) => {
     });
 });
 
-router.get("/todo", (req, res) => {
+router.get("/notes", (_, res) => {
   const prisma = new PrismaClient();
   prisma.todo
     .findMany()
@@ -33,7 +34,7 @@ router.get("/todo", (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
-router.get("/todo/:id", (req, res) => {
+router.get("/notes/:id", (req, res) => {
   const { id } = req.params;
   const prisma = new PrismaClient();
   prisma.todo
@@ -44,7 +45,7 @@ router.get("/todo/:id", (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
-router.delete("/todo/:id", (req, res) => {
+router.delete("/notes/:id", (req, res) => {
   const { id } = req.params;
   const prisma = new PrismaClient();
   prisma.todo
@@ -55,7 +56,7 @@ router.delete("/todo/:id", (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
-router.put("/todo/:id", (req, res) => {
+router.put("/notes/:id", (req, res) => {
     const { id } = req.params;
     const { description, title, done } = req.body;
     const prisma = new PrismaClient();
@@ -76,4 +77,4 @@ router.put("/todo/:id", (req, res) => {
       .catch((err) => res.status(500).json(err));
 });
 
-module.exports.router = router;
+export { router as notesRouter };

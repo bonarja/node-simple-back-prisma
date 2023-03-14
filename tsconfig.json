@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "es2015",
+      "module": "commonjs",
+      "rootDir": "src",
+      "baseUrl": "src",
+      "paths": {
+        "@/*": ["*"]
+      },
+      "outDir": "./build",
+      "strict": true,
+      "noUnusedLocals": true,
+      "noImplicitReturns": true,
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "noUnusedParameters": true,
+      "resolveJsonModule": true,
+      "noImplicitAny": false,
+      "noImplicitThis": false,
+      "experimentalDecorators": true
+    },
+    "include": ["./src/**/*.ts"],
+  }
+  
