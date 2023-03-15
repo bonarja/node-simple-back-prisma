@@ -3,7 +3,7 @@ import { RequestHandler } from "express"
 import jwt from "jsonwebtoken"
 import httpContext from "express-http-context"
 
-export const authMiddeware: RequestHandler = async (req, res, next) => {
+export const authMiddeware: RequestHandler = async(req, res, next) => {
   const auth = req.headers.authorization
 
   if (!auth) {

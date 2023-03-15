@@ -13,12 +13,17 @@ model todo {
   description String   @db.Text
   done        Boolean  @default(false)
   createAt    DateTime @db.Date
+  user_id     Int?
+  users       users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_todo_users")
+
+  @@index([user_id], map: "FK_todo_users")
 }
 
 model users {
   id       Int     @id @default(autoincrement())
   name     String  @default("0") @db.VarChar(50)
-  passwork String  @default("0") @db.VarChar(100)
+  password String  @default("0") @db.VarChar(100)
   email    String? @db.VarChar(50)
-  role     String? @db.VarChar(50)
+  role     String? @default("user") @db.VarChar(50)
+  todo     todo[]
 }

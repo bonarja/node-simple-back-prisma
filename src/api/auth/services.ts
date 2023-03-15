@@ -9,7 +9,9 @@ import { getUserFromContext } from "@/utils/getUserFromContext"
 export const AuthService: AuthServiceIO = {
   async login(UserDto) {
     try {
-      const user = await UserService.findUserByEmailWithPass(UserDto.email || "")
+      const user = await UserService.findUserByEmailWithPass(
+        UserDto.email || ""
+      )
       if (!user) throw "Invalid user or password"
 
       const isValid = await bcrypt.compare(UserDto.password, user.password)
@@ -32,6 +34,6 @@ export const AuthService: AuthServiceIO = {
     }
   },
   async verify() {
-    return getUserFromContext();
+    return getUserFromContext()
   },
 }
