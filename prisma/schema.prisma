@@ -20,4 +20,5 @@ model users {
   name     String  @default("0") @db.VarChar(50)
   passwork String  @default("0") @db.VarChar(100)
   email    String? @db.VarChar(50)
+  role     String? @db.VarChar(50)
 }

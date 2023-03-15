@@ -1,14 +1,13 @@
-import express from "express";
-import cors from "cors";
-import { json, urlencoded } from "express";
-import { notesRouter } from "./api/notes/router";
+import express from "express"
+import cors from "cors"
+import { json, urlencoded } from "express"
+import { setRoutes } from "./api"
 
-
-const PORT = 8080;
-const app = express();
+const PORT = 8080
+export const app = express()
 
 app.use(cors(), json(), urlencoded({ extended: true }))
-app.use(notesRouter)
+setRoutes(app);
 app.listen(PORT, () => {
-    console.log(`Server is running in: http://localhost:${PORT}`)
+  console.log(`Server is running in: http://localhost:${PORT}`)
 })

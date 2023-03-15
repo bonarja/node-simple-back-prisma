@@ -1,38 +1,37 @@
-import { plainToInstance } from "class-transformer";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { User } from "../user/model";
-import { UserRepository } from "../user/repository";
-import { AuthServiceIO } from "./models";
+import { plainToInstance } from "class-transformer"
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import { User } from "../user/model"
+import { AuthServiceIO } from "./models"
+import { UserService } from "../user/service"
+import { getUserFromContext } from "@/utils/getUserFromContext"
 
 export const AuthService: AuthServiceIO = {
-  async authorize(UserDto) {
-
+  async login(UserDto) {
     try {
-      const user = await UserRepository.findUserByEmail(UserDto.email || "");
-      if (!user) throw "Invalid user or password";
+      const user = await UserService.findUserByEmailWithPass(UserDto.email || "")
+      if (!user) throw "Invalid user or password"
 
-      const isValid = await bcrypt.compare(UserDto.password, user.password);
-      if (!isValid) throw "Invalid user or password";
+      const isValid = await bcrypt.compare(UserDto.password, user.password)
+      if (!isValid) throw "Invalid user or password"
 
       const dataForToken = {
         email: user.email,
-      };
+      }
 
-      const token = jwt.sign(dataForToken, process.env.BCRYPT_SECRET as string);
+      const token = jwt.sign(dataForToken, process.env.BCRYPT_SECRET as string)
 
       return {
         user: plainToInstance(User, user, {
           excludeExtraneousValues: true,
         }),
         token,
-      };
+      }
     } catch (error) {
-      throw error;
+      throw error
     }
   },
-  async createUser(userDto) {
-    await userDto.createPassworkHash();
-    return await UserRepository.createUser(userDto);
+  async verify() {
+    return getUserFromContext();
   },
-};
+}
