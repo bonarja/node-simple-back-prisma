@@ -8,18 +8,17 @@ router.post("/notes", (req, res) => {
   const prisma = new PrismaClient()
   const user = getUserFromContext()
   const { title, description } = req.body
-  prisma.todo
+  prisma.notes
     .create({
       data: {
         description,
         title,
         createAt: new Date(),
-        done: false,
         users: {
           connect: {
-            id: user?.id || 0,
-          },
-        },
+            id: user?.id ?? 0
+          }
+        }
       },
     })
     .then((newNote) => {
@@ -33,7 +32,7 @@ router.post("/notes", (req, res) => {
 router.get("/notes", (_, res) => {
   const prisma = new PrismaClient()
   const user = getUserFromContext()
-  prisma.todo
+  prisma.notes
     .findMany({ where: { user_id: user?.id } })
     .then((todoList) => {
       res.json(todoList)
@@ -45,7 +44,7 @@ router.get("/notes/:id", (req, res) => {
   const { id } = req.params
   const prisma = new PrismaClient()
   const user = getUserFromContext()
-  prisma.todo
+  prisma.notes
     .findFirst({ where: { id: Number(id), user_id: user?.id } })
     .then((todo) => {
       res.json(todo)
@@ -57,7 +56,7 @@ router.delete("/notes/:id", (req, res) => {
   const { id } = req.params
   const prisma = new PrismaClient()
   const user = getUserFromContext()
-  prisma.todo
+  prisma.notes
     .deleteMany({ where: { id: Number(id), user_id: user?.id } })
     .then((todoDeleted) => {
       res.json(todoDeleted)
@@ -67,15 +66,14 @@ router.delete("/notes/:id", (req, res) => {
 
 router.put("/notes/:id", (req, res) => {
   const { id } = req.params
-  const { description, title, done } = req.body
+  const { description, title } = req.body
   const user = getUserFromContext()
   const prisma = new PrismaClient()
-  prisma.todo
+  prisma.notes
     .updateMany({
       data: {
         title,
         description,
-        done,
       },
       where: {
         id: Number(id),

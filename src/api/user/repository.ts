@@ -6,7 +6,7 @@ export const UserRepository: UserRepositoryIO = {
   async createUser(user) {
     const prisma = new PrismaClient()
     const result = await prisma.users.create({ data: instanceToInstance(user) })
-    return plainToInstance(User, result)
+    return plainToInstance(User, result, { excludeExtraneousValues: true })
   },
   async findUserByEmail(email) {
     const prisma = new PrismaClient()

@@ -7,16 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model todo {
+model notes {
   id          Int      @id @default(autoincrement())
   title       String   @db.Text
   description String   @db.Text
-  done        Boolean  @default(false)
   createAt    DateTime @db.Date
   user_id     Int?
-  users       users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_todo_users")
+  users       users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_notes_users")
 
-  @@index([user_id], map: "FK_todo_users")
+  @@index([user_id], map: "FK_notes_users")
 }
 
 model users {
@@ -25,5 +24,5 @@ model users {
   password String  @default("0") @db.VarChar(100)
   email    String? @db.VarChar(50)
   role     String? @default("user") @db.VarChar(50)
-  todo     todo[]
+  notes    notes[]
 }
